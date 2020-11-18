@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,9 @@ public class HomeController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	BCryptPasswordEncoder bpe;
 //	
 //	@GetMapping("/test")
 //	@ResponseBody
@@ -77,6 +82,8 @@ public class HomeController {
 		
 		user.setRole("ROLE_USER");
 		user.setEnabled(true);
+		user.setPassword(bpe.encode(user.getPassword()));
+		
 		User result = userRepository.save(user);
 		
 		model.addAttribute("user", result);
@@ -84,6 +91,7 @@ public class HomeController {
 		System.out.println("Agreement"+" "+ agreement+" USER "+" "+user);
 		 model.addAttribute("user", new User());
 		    session.setAttribute("message", new Message("Registered Sucessfully", "alert-success"));
+	
 		    return "signup";
 		
 	} catch (Exception e) {
@@ -95,4 +103,12 @@ public class HomeController {
 	}
 	
 	}
+	
+	@GetMapping("/signin")
+	public String customLogin(Model model) {
+		
+		model.addAttribute("title", "SIgnIn Page");
+		return "login";
+	}
+	
 	}
