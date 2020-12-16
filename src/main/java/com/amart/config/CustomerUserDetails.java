@@ -12,9 +12,6 @@ import com.amart.entities.User;
 public class CustomerUserDetails implements UserDetails {
 
 	private User user;
-	
-	
-	
 
 	public CustomerUserDetails(User user) {
 		super();
@@ -24,7 +21,7 @@ public class CustomerUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		
+
 		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole());
 		return List.of(simpleGrantedAuthority);
 	}

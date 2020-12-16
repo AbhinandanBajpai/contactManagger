@@ -12,19 +12,19 @@ public class USerDeatailServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 		User user = userRepository.getUserByUserName(username);
-		
-		if(user==null) {
+
+		if (user == null) {
 			throw new UsernameNotFoundException("Could Not Found User");
 		}
-		
+
 		CustomerUserDetails customeUserDetails = new CustomerUserDetails(user);
-		
+
 		return customeUserDetails;
 	}
 
